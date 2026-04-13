@@ -1,10 +1,32 @@
-# Data Modeling – Logical ERD
+# Data Modeling
 
 This folder contains the data modeling artifacts for the ecommerce analytics project, including both the **normalized relational model** and the **dimensional (star/galaxy) schema** used to power downstream analysis and dashboards.
 
 ---
 
-## 📌 Overview
+## Query Performance Result (updated on 04.12.2026)
+
+The same 9 analytical views were rebuilt on top of a dimensional Star Schema database and validated against the original outputs.
+
+### 📌 Runtime Comparison
+
+| Version | Total Runtime |
+|--------|--------------:|
+| Original model | 0.805574 s |
+| Star Schema model | 0.536462 s |
+
+### Result
+
+- Absolute improvement: `0.269112 s`
+- Relative improvement: `33.4% faster`
+
+The optimized Star Schema version preserved the same analytical results while reducing the total execution time across all 9 views.
+
+---
+
+## Logical ERD
+
+### Overview
 
 This project demonstrates the end-to-end data modeling process:
 
@@ -20,9 +42,9 @@ This project demonstrates the end-to-end data modeling process:
 
 ---
 
-## 🧱 Dimensional Model Design
+### Dimensional Model Design
 
-### Fact Tables
+#### Fact Tables
 
 - **fact_orders**  
   - Grain: one row per order  
@@ -42,7 +64,7 @@ This project demonstrates the end-to-end data modeling process:
 
 ---
 
-### Dimension Tables
+#### Dimension Tables
 
 - **dim_users**  
   - User attributes including signup date and acquisition channel  
@@ -55,7 +77,7 @@ This project demonstrates the end-to-end data modeling process:
 
 ---
 
-## ⚙️ Key Design Decisions
+### Key Design Decisions
 
 - **Grain-first modeling**  
   Each fact table is defined with a clear and consistent grain before adding attributes or measures.
@@ -74,7 +96,7 @@ This project demonstrates the end-to-end data modeling process:
 
 ---
 
-## 📊 Analytical Capabilities Enabled
+### Analytical Capabilities Enabled
 
 This model supports:
 
@@ -86,7 +108,7 @@ This model supports:
 
 ---
 
-## 💡 Summary
+### Summary
 
 This data model reflects a transition from **normalized transactional design** to **analytics-optimized dimensional modeling**, balancing:
 
@@ -95,3 +117,5 @@ This data model reflects a transition from **normalized transactional design** t
 - Analytical flexibility  
 
 It is designed to closely mirror real-world data warehouse practices used in production environments.
+
+**Copyright @Iris Xia**
