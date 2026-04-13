@@ -1,16 +1,27 @@
 -- sku_by_category_v source
 
 CREATE VIEW sku_by_category_v AS
-WITH p AS (SELECT * FROM params),
+WITH category_labels AS (
+  SELECT 'cat_1' AS raw_category, 'Apparel' AS category
+  UNION ALL SELECT 'cat_2', 'Beauty'
+  UNION ALL SELECT 'cat_3', 'Home'
+  UNION ALL SELECT 'cat_4', 'Electronics'
+  UNION ALL SELECT 'cat_5', 'Sports'
+  UNION ALL SELECT 'cat_6', 'Other'
+),
 items AS (
   SELECT oi.sku_id, oi.line_amount
   FROM order_items oi
-  JOIN orders o ON o.order_id = oi.order_id, p
-  WHERE date(o.order_dt) BETWEEN p.start_date AND p.end_date
+  JOIN orders o ON o.order_id = oi.order_id
 ),
 sku_rev AS (
-  SELECT pr.sku_id, pr.sku_name, pr.category, SUM(i.line_amount) AS rev
-  FROM items i JOIN products_pretty_v pr USING(sku_id)
+  SELECT
+      pr.sku_id,
+      pr.sku_name,
+      COALESCE(cl.category, pr.category) AS category,
+      SUM(i.line_amount) AS rev
+  FROM items i JOIN products pr USING(sku_id)
+  LEFT JOIN category_labels cl ON cl.raw_category = pr.category
   GROUP BY 1,2,3
 ),
 acc AS (

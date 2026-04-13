@@ -1,11 +1,9 @@
 -- cohort_heatmap_v source
 
 CREATE VIEW cohort_heatmap_v AS
-WITH p AS (SELECT * FROM params),
-o AS (
+WITH o AS (
   SELECT user_id, date(order_dt) AS od
-  FROM orders o, p
-  WHERE date(o.order_dt) BETWEEN p.start_date AND p.end_date
+  FROM orders o
 ),
 base AS (
   SELECT user_id,

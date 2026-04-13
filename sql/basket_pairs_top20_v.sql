@@ -1,11 +1,10 @@
 -- basket_pairs_top20_v source
 
 CREATE VIEW basket_pairs_top20_v AS
-WITH p AS (SELECT * FROM params),
-items AS (
+WITH items AS (
   SELECT oi.order_id, oi.sku_id
-  FROM order_items oi JOIN orders o ON o.order_id=oi.order_id, p
-  WHERE date(o.order_dt) BETWEEN p.start_date AND p.end_date
+  FROM order_items oi
+  JOIN orders o ON o.order_id=oi.order_id
 ),
 pairs AS (
   SELECT i1.sku_id AS sku_a, i2.sku_id AS sku_b, COUNT(*) AS cnt
