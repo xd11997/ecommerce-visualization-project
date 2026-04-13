@@ -24,6 +24,15 @@ Designed for executive-level decision-making with a clear KPI structure and dril
 - Reduced query complexity and improved query performance by **33.4%**  
 - Enabled efficient aggregation and multi-dimensional analysis  
 
+### Performance Note
+
+A comparison was conducted between normalized and star schema designs under both small-scale and 100× scaled datasets in SQLite.
+
+- At small scale, star schema queries were faster
+- At 100× scale, star schema became ~11% slower than the normalized model
+
+This highlights that performance depends on the database engine and workload characteristics, rather than schema design alone.
+
 ---
 
 ## ⚙️ Data Pipeline
